@@ -9,4 +9,4 @@ and research (Vol. 2, pp. 102–138). New York: Guilford Press.
 ## Description of Measure:
 44-item inventory that measures an individual on the Big Five Factors (dimensions) of
 personality (Goldberg, 1993). Each of the factors is then further divided into personality facets.
-The Big Five Factors are (chart recreated from John & Srivastava, 1999): 
+
