@@ -1,0 +1,458 @@
+---
+API: 3
+OpenSesame: 4.0.5
+Platform: nt
+---
+set width 1920
+set title "Nieuw experiment"
+set subject_parity even
+set subject_nr 0
+set start experiment
+set sound_sample_size -16
+set sound_freq 48000
+set sound_channels 2
+set sound_buf_size 1024
+set sampler_backend psycho
+set round_decimals 2
+set mouse_backend psycho
+set keyboard_backend psycho
+set height 1080
+set fullscreen no
+set form_clicks no
+set foreground white
+set font_underline no
+set font_size 21
+set font_italic False
+set font_family sans
+set font_bold False
+set experiment_path "G:\\My Drive\\BThese 23_24\\Opensesame Task"
+set disable_garbage_collection False
+set description "The main experiment item"
+set color_backend psycho
+set clock_backend psycho
+set canvas_backend psycho
+set background "#3d3846"
+
+define inline_script AddToScale
+	set description "Voert Python-code uit"
+	___run__
+	if Reversed == 'y':
+	    response = 0-(response+1)
+	else:
+	    response = (response+1)
+	    
+	BFI[BFI_SCALE].append(response)
+	__end__
+	set _prepare ""
+
+define inline_script ApplyLanguage
+	set description "Voert Python-code uit"
+	set _run ""
+	___prepare__
+	if language == 'DE':
+	    Head = "Ich betrachte mich als jemanden, der..."
+	    Question = QuestionDE
+	    Options = "Stimme überhaupt nicht zu;Stimme nicht zu;Lehne weder ab noch stimme zu;Stimme zu;Stimme völlig zu"
+	if language == 'EN':
+	    Head = "I see Myself as Someone Who..."
+	    Question = QuestionEN
+	    Options = "Disagree strongly;Disagree a little;Neither agree nor disagree;Agree a little;Agree Strongly"
+	if language == 'NL':
+	    Head = "Ik zie mezelf als iemand die..."
+	    Question = QuestionNL
+	    Options = "Sterk mee oneens; Een beetje mee oneens; Noch mee eens noch mee oneens; Een beetje mee eens; Sterk mee eens"
+	__end__
+
+define form_base AskLanguage
+	# Create a form with horizontal multiple-choice options
+	# Define two rows: one for the question and one for the options
+	# Define three columns for the options
+	# Optional: Set margins for the form
+	# Optional: Set spacing between widgets
+	# Add a label for the question in the first row
+	# Add horizontal multiple-choice options in the second row
+	set timeout infinite
+	set spacing 1
+	set rows "1;1"
+	set only_render no
+	set margins "0;0;0;0"
+	set description "A form with horizontal options"
+	set cols "1;1;1;1;1;1;1"
+	set _theme gray
+	widget 0 0 7 1 label text="<span style='font-size:38px;'>What Language should I use:</span>"
+	widget 1 1 5 2 rating_scale click_accepts=yes nodes="NL;DE;EN" orientation=horizontal var=LanNr
+
+
+define loop BigFive
+	set source_file ""
+	set source table
+	set repeat 1
+	set order sequential
+	set description "Voert herhaaldelijk een ander item uit"
+	set cycles 44
+	set continuous no
+	set break_if_on_first yes
+	set break_if False
+	setcycle 0 QuestionEN "Is talkative"
+	setcycle 0 BFI_SCALE Extraversion
+	setcycle 0 Reversed n
+	setcycle 0 QuestionNL "Spraakzaam is"
+	setcycle 0 QuestionDE "Gesprächig ist"
+	setcycle 1 QuestionEN "Tends to find fault with others"
+	setcycle 1 BFI_SCALE Agreeableness
+	setcycle 1 Reversed y
+	setcycle 1 QuestionNL "Vaak fouten bij anderen zoekt"
+	setcycle 1 QuestionDE "Dazu tendiert , Fehler bei anderen zu finden"
+	setcycle 2 QuestionEN "Does a thorough job"
+	setcycle 2 BFI_SCALE Conscientiousness
+	setcycle 2 Reversed n
+	setcycle 2 QuestionNL "Zijn werk grondig doet"
+	setcycle 2 QuestionDE "Einen gründlichen Job macht"
+	setcycle 3 QuestionEN "Is depressed, blue"
+	setcycle 3 BFI_SCALE Neuroticism
+	setcycle 3 Reversed n
+	setcycle 3 QuestionNL "Neerslachtig, somber is"
+	setcycle 3 QuestionDE "Depressiv oder bedrückt ist"
+	setcycle 4 QuestionEN "Is original, comes up with new ideas"
+	setcycle 4 BFI_SCALE Openness
+	setcycle 4 Reversed n
+	setcycle 4 QuestionNL "Origineel is, nieuwe ideeën bedenkt"
+	setcycle 4 QuestionDE "Originell ist, neue Ideen entwickelt"
+	setcycle 5 QuestionEN "Is reserved"
+	setcycle 5 BFI_SCALE Extraversion
+	setcycle 5 Reversed y
+	setcycle 5 QuestionNL "Gereserveerd is"
+	setcycle 5 QuestionDE "Zurückhaltend ist"
+	setcycle 6 QuestionEN "Is helpful and unselfish with others"
+	setcycle 6 BFI_SCALE Agreeableness
+	setcycle 6 Reversed n
+	setcycle 6 QuestionNL "Behulpzaam en onzelfzuchtig is voor anderen"
+	setcycle 6 QuestionDE "Hilfsbereit und nicht egoistisch anderen gegenüber ist"
+	setcycle 7 QuestionEN "Can be somewhat careless"
+	setcycle 7 BFI_SCALE Conscientiousness
+	setcycle 7 Reversed y
+	setcycle 7 QuestionNL "Enigszins slordig kan zijn"
+	setcycle 7 QuestionDE "Manchmal nachlässig sein kann"
+	setcycle 8 QuestionEN "Is relaxed, handles stress well"
+	setcycle 8 BFI_SCALE Neuroticism
+	setcycle 8 Reversed y
+	setcycle 8 QuestionNL "Ontspannen is, goed met stress omgaat"
+	setcycle 8 QuestionDE "Entspannt ist, mit Stress gut umgehen kann"
+	setcycle 9 QuestionEN " Is curious about many different things"
+	setcycle 9 BFI_SCALE Openness
+	setcycle 9 Reversed n
+	setcycle 9 QuestionNL " Nieuwsgierig is naar veel verschillende dingen"
+	setcycle 9 QuestionDE " Neugierig auf viele verschiedene Dinge ist"
+	setcycle 10 QuestionEN " Is full of energy"
+	setcycle 10 BFI_SCALE Extraversion
+	setcycle 10 Reversed n
+	setcycle 10 QuestionNL " Boordevol energie zit"
+	setcycle 10 QuestionDE " Viel Energie hat"
+	setcycle 11 QuestionEN " Starts quarrels with others"
+	setcycle 11 BFI_SCALE Agreeableness
+	setcycle 11 Reversed y
+	setcycle 11 QuestionNL " Ruzies begint met anderen"
+	setcycle 11 QuestionDE " Streitereien mit anderen beginnt"
+	setcycle 12 QuestionEN " Is a reliable worker"
+	setcycle 12 BFI_SCALE Conscientiousness
+	setcycle 12 Reversed n
+	setcycle 12 QuestionNL " Betrouwbaar is als werker"
+	setcycle 12 QuestionDE " Ein zuverlässiger Arbeiter ist"
+	setcycle 13 QuestionEN " Can be tense"
+	setcycle 13 BFI_SCALE Neuroticism
+	setcycle 13 Reversed n
+	setcycle 13 QuestionNL " Gespannen kan zijn"
+	setcycle 13 QuestionDE "Angespannt sein kann"
+	setcycle 14 QuestionEN " Is ingenious, a deep thinker"
+	setcycle 14 BFI_SCALE Openness
+	setcycle 14 Reversed n
+	setcycle 14 QuestionNL " Vernuftig is, een denker"
+	setcycle 14 QuestionDE " Genial ist, ein tiefgründiger Denker ist"
+	setcycle 15 QuestionEN " Generates a lot of enthusiasm"
+	setcycle 15 BFI_SCALE Extraversion
+	setcycle 15 Reversed n
+	setcycle 15 QuestionNL " Veel enthousiasme bij anderen genereert"
+	setcycle 15 QuestionDE " Viel Enthusiasmus erzeugt"
+	setcycle 16 QuestionEN " Has a forgiving nature"
+	setcycle 16 BFI_SCALE Agreeableness
+	setcycle 16 Reversed n
+	setcycle 16 QuestionNL " Vergevingsgezind is"
+	setcycle 16 QuestionDE "dazu neigt anderen zu vergeben zu können"
+	setcycle 17 QuestionEN " Tends to be disorganized"
+	setcycle 17 BFI_SCALE Conscientiousness
+	setcycle 17 Reversed y
+	setcycle 17 QuestionNL " De neiging heeft om ongeorganiseerd te zijn"
+	setcycle 17 QuestionDE " Dazu tendiert, unorganisiert zu sein"
+	setcycle 18 QuestionEN " Worries a lot"
+	setcycle 18 BFI_SCALE Neuroticism
+	setcycle 18 Reversed n
+	setcycle 18 QuestionNL " Zich veel zorgen maakt"
+	setcycle 18 QuestionDE " Viel grübelt"
+	setcycle 19 QuestionEN " Has an active imagination"
+	setcycle 19 BFI_SCALE Openness
+	setcycle 19 Reversed n
+	setcycle 19 QuestionNL " Een actieve verbeelding heeft"
+	setcycle 19 QuestionDE " Eine aktive Vorstellungskraft hat"
+	setcycle 20 QuestionEN " Tends to be quiet"
+	setcycle 20 BFI_SCALE Extraversion
+	setcycle 20 Reversed y
+	setcycle 20 QuestionNL " De neiging heeft om stil te zijn"
+	setcycle 20 QuestionDE " Dazu tendiert, ruhig zu sein"
+	setcycle 21 QuestionEN " Is generally trusting"
+	setcycle 21 BFI_SCALE Agreeableness
+	setcycle 21 Reversed n
+	setcycle 21 QuestionNL " Over het algemeen goed van vertrouwen is"
+	setcycle 21 QuestionDE "Im Allgemeinen Anderen vertraut"
+	setcycle 22 QuestionEN " Tends to be lazy"
+	setcycle 22 BFI_SCALE Conscientiousness
+	setcycle 22 Reversed y
+	setcycle 22 QuestionNL " De neiging heeft om lui te zijn"
+	setcycle 22 QuestionDE " Dazu tendiert, faul zu sein"
+	setcycle 23 QuestionEN " Is emotionally stable, not easily upset"
+	setcycle 23 BFI_SCALE Neuroticism
+	setcycle 23 Reversed y
+	setcycle 23 QuestionNL " Emotioneel stabiel is, niet snel van streek raakt"
+	setcycle 23 QuestionDE " Emotionell stabil ist, nicht leicht aus der Fass"
+	setcycle 24 QuestionEN " Is inventive"
+	setcycle 24 BFI_SCALE Openness
+	setcycle 24 Reversed n
+	setcycle 24 QuestionNL " Vindingrijk is"
+	setcycle 24 QuestionDE " Erfinderisch ist"
+	setcycle 25 QuestionEN " Has an assertive personality"
+	setcycle 25 BFI_SCALE Extraversion
+	setcycle 25 Reversed n
+	setcycle 25 QuestionNL " Een assertieve persoonlijkheid heeft"
+	setcycle 25 QuestionDE " Eine durchsetzungsstarke Persönlichkeit hat"
+	setcycle 26 QuestionEN " Can be cold and aloof"
+	setcycle 26 BFI_SCALE Agreeableness
+	setcycle 26 Reversed y
+	setcycle 26 QuestionNL " Koud en afstandelijk kan zijn"
+	setcycle 26 QuestionDE " Kaltherzig und distanziert sein kann"
+	setcycle 27 QuestionEN " Perseveres until the task is finished"
+	setcycle 27 BFI_SCALE Conscientiousness
+	setcycle 27 Reversed n
+	setcycle 27 QuestionNL " Volhardt tot de taak is voltooid"
+	setcycle 27 QuestionDE " Durchhält, bis die Aufgabe erledigt ist"
+	setcycle 28 QuestionEN " Can be moody"
+	setcycle 28 BFI_SCALE Neuroticism
+	setcycle 28 Reversed n
+	setcycle 28 QuestionNL " Soms humeurig kan zijn"
+	setcycle 28 QuestionDE " Manchmal launisch sein kann"
+	setcycle 29 QuestionEN " Values artistic, aesthetic experiences"
+	setcycle 29 BFI_SCALE Openness
+	setcycle 29 Reversed n
+	setcycle 29 QuestionNL " Kunstzinnige, esthetische ervaringen waardeert"
+	setcycle 29 QuestionDE " Künstlerische, ästhetische Erfahrungen schätzt"
+	setcycle 30 QuestionEN " Is sometimes shy, inhibited"
+	setcycle 30 BFI_SCALE Extraversion
+	setcycle 30 Reversed y
+	setcycle 30 QuestionNL " Soms verlegen en geremd is"
+	setcycle 30 QuestionDE " Manchmal schüchtern und gehemmt ist"
+	setcycle 31 QuestionEN " Is considerate and kind to almost everyone"
+	setcycle 31 BFI_SCALE Agreeableness
+	setcycle 31 Reversed n
+	setcycle 31 QuestionNL " Attent en vriendelijk is tegen bijna iedereen"
+	setcycle 31 QuestionDE " Rücksichtsvoll und freundlich gegenüber fast jed"
+	setcycle 32 QuestionEN " Does things efficiently"
+	setcycle 32 BFI_SCALE Conscientiousness
+	setcycle 32 Reversed n
+	setcycle 32 QuestionNL " Dingen efficiënt doet"
+	setcycle 32 QuestionDE " Dinge effizient erledigt"
+	setcycle 33 QuestionEN " Remains calm in tense situations"
+	setcycle 33 BFI_SCALE Neuroticism
+	setcycle 33 Reversed y
+	setcycle 33 QuestionNL " Kalm blijft in gespannen situaties"
+	setcycle 33 QuestionDE " In angespannten Situationen ruhig bleibt"
+	setcycle 34 QuestionEN " Prefers work that is routine"
+	setcycle 34 BFI_SCALE Openness
+	setcycle 34 Reversed y
+	setcycle 34 QuestionNL " De voorkeur geeft aan routinematig werk"
+	setcycle 34 QuestionDE " Routinearbeit bevorzugt"
+	setcycle 35 QuestionEN " Is outgoing, sociable"
+	setcycle 35 BFI_SCALE Extraversion
+	setcycle 35 Reversed n
+	setcycle 35 QuestionNL " Extravert en sociaal is"
+	setcycle 35 QuestionDE "Kontaktfreudig und gesellig ist"
+	setcycle 36 QuestionEN " Is sometimes rude to others"
+	setcycle 36 BFI_SCALE Agreeableness
+	setcycle 36 Reversed y
+	setcycle 36 QuestionNL " Soms onbeleefd is tegen anderen"
+	setcycle 36 QuestionDE " Manchmal unhöflich zu anderen ist"
+	setcycle 37 QuestionEN " Makes plans and follows through with them"
+	setcycle 37 BFI_SCALE Conscientiousness
+	setcycle 37 Reversed n
+	setcycle 37 QuestionNL " Plannen maakt en deze uitvoert"
+	setcycle 37 QuestionDE " Pläne macht und diese auch umsetzt"
+	setcycle 38 QuestionEN " Gets nervous easily"
+	setcycle 38 BFI_SCALE Neuroticism
+	setcycle 38 Reversed n
+	setcycle 38 QuestionNL " Snel nerveus wordt"
+	setcycle 38 QuestionDE " Leicht nervös wird"
+	setcycle 39 QuestionEN " Likes to reflect, play with ideas"
+	setcycle 39 BFI_SCALE Openness
+	setcycle 39 Reversed n
+	setcycle 39 QuestionNL " Graag nadenkt, speelt met ideeën"
+	setcycle 39 QuestionDE "Gerne reflektiert, mit Ideen spielt"
+	setcycle 40 QuestionEN " Has few artistic interests"
+	setcycle 40 BFI_SCALE Openness
+	setcycle 40 Reversed y
+	setcycle 40 QuestionNL " Weinig artistieke interesses heeft"
+	setcycle 40 QuestionDE " Wenig künstlerische Interessen hat"
+	setcycle 41 QuestionEN " Likes to cooperate with others"
+	setcycle 41 BFI_SCALE Agreeableness
+	setcycle 41 Reversed n
+	setcycle 41 QuestionNL " Graag samenwerkt met anderen"
+	setcycle 41 QuestionDE " Gerne mit anderen zusammenarbeitet"
+	setcycle 42 QuestionEN " Is easily distracted"
+	setcycle 42 BFI_SCALE Conscientiousness
+	setcycle 42 Reversed y
+	setcycle 42 QuestionNL " Makkelijk afgeleid is"
+	setcycle 42 QuestionDE " Leicht abgelenkt wird"
+	setcycle 43 QuestionEN " Is sophisticated in art, music, or literature"
+	setcycle 43 BFI_SCALE Openness
+	setcycle 43 Reversed n
+	setcycle 43 QuestionNL " Verfijnd is op het gebied van kunst, muziek of literatuur"
+	setcycle 43 QuestionDE " In Kunst, Musik oder Literatur kultiviert ist"
+	run Question
+
+define sequence DoBigFive
+	set flush_keyboard yes
+	set description "Voert een aantal items achter elkaar uit"
+	run AskLanguage True
+	run SetDefaults True
+	run InstructionNL "[language] = \"NL\""
+	run InstructionDE "[language] = \"DE\""
+	run InstructionEN "[language] = \"EN\""
+	run BigFive True
+	run Summary True
+
+define form_text_display InstructionDE
+	set timeout infinite
+	set spacing 10
+	set rows "1;4;1"
+	set only_render no
+	set ok_text Ok
+	set margins "50;50;50;50"
+	set form_title ANWEISUNG
+	set form_text "<span style='font-size:38px;'> Hier sind eine Reihe von Eigenschaften, die möglicherweise auf dich zutreffen oder auch nicht. Zum Beispiel, stimmst du zu, dass du jemand bist, der gerne Zeit mit anderen verbringt? Gebe bitte neben jede Aussage an, inwieweit du dieser Aussage zustimmst oder widersprichst.</span>"
+	set description "A generic form plug-in"
+	set cols "1;1;1"
+	set _theme gray
+	widget 0 0 3 1 label text="{form_title}"
+	widget 0 1 3 1 label center=no text="{form_text}"
+	widget 1 2 1 1 button text="{ok_text}"
+
+
+define form_text_display InstructionEN
+	set timeout infinite
+	set spacing 10
+	set rows "1;4;1"
+	set only_render no
+	set ok_text Ok
+	set margins "50;50;50;50"
+	set form_title INSTRUCTION
+	set form_text "<span style='font-size:38px;'> Here are a number of characteristics that may or may not apply to you. For example, do you agree that you are someone who likes to spend time with others? Please indicate for statement the extent to which you agree or disagree with that statement.</span>"
+	set description "A generic form plug-in"
+	set cols "1;1;1"
+	set _theme gray
+	widget 0 0 3 1 label text="{form_title}"
+	widget 0 1 3 1 label center=no text="{form_text}"
+	widget 1 2 1 1 button text="{ok_text}"
+
+
+define form_text_display InstructionNL
+	set timeout infinite
+	set spacing 10
+	set rows "1;4;1"
+	set only_render no
+	set ok_text Ok
+	set margins "50;50;50;50"
+	set form_title INSTRUCTIE
+	set form_text "<span style='font-size:38px;'> Hier zijn een aantal kenmerken die al dan niet op jou van toepassing kunnen zijn. Bijvoorbeeld, ben je het ermee eens datje iemand bent die graag tijd doorbrengt met anderen? Geeft voor elke verklaring aan in hoeverre je het eens of oneens bent met die verklaring.</span>"
+	set description "A generic form plug-in"
+	set cols "1;1;1"
+	set _theme gray
+	widget 0 0 3 1 label text="{form_title}"
+	widget 0 1 3 1 label center=no text="{form_text}"
+	widget 1 2 1 1 button text="{ok_text}"
+
+
+define sequence Question
+	set flush_keyboard yes
+	set description "Voert een aantal items achter elkaar uit"
+	run ApplyLanguage True
+	run ShowQuestion True
+	run AddToScale True
+
+define inline_script SetDefaults
+	set description "Voert Python-code uit"
+	___run__
+	BFI = dict()
+	BFI = {"Extraversion": [],
+	       "Agreeableness":[],
+	       "Conscientiousness":[],
+	       "Neuroticism":[],
+	       "Openness":[]}
+	
+	if LanNr == 0:
+	    language = "NL"
+	    
+	if LanNr == 1:
+	    language = "DE"
+	    
+	if LanNr == 2:
+	    language = "EN"
+	__end__
+	set _prepare ""
+
+define form_base ShowQuestion
+	# Create a form with horizontal multiple-choice options
+	# Define two rows: one for the question and one for the options
+	# Define three columns for the options
+	# Optional: Set margins for the form
+	# Optional: Set spacing between widgets
+	# Add a label for the question in the first row
+	# Add horizontal multiple-choice options in the second row
+	set timeout infinite
+	set spacing 1
+	set rows "1;1;1"
+	set only_render no
+	set margins "0;0;0;0"
+	set description "A form with horizontal options"
+	set cols "1;1;1;1;1;1;1"
+	set _theme gray
+	widget 0 0 7 1 label text="<span style='font-size:38px;'>{Head}</span>"
+	widget 0 1 7 1 label text="<span style='font-size:38px;'>{Question}</span>"
+	widget 1 2 5 2 rating_scale click_accepts=yes nodes="{Options}" orientation=horizontal var=response
+
+
+define inline_script Summary
+	set description "Voert Python-code uit"
+	___run__
+	Extraversion = sum(BFI["Extraversion"])
+	Agreeableness = sum(BFI["Agreeableness"])
+	Conscientiousness = sum(BFI["Conscientiousness"])
+	Neuroticism = sum(BFI["Neuroticism"])
+	Openness = sum(BFI["Openness"])
+	__end__
+	set _prepare ""
+
+define sequence experiment
+	set flush_keyboard yes
+	set description "Voert een aantal items achter elkaar uit"
+	run DoBigFive True
+
+define form_base new_form_base
+	set timeout infinite
+	set spacing 1
+	set rows "1;1;1"
+	set only_render no
+	set margins "0;0;0;0"
+	set description "A form with horizontal options"
+	set cols "1;1;1;1;1;1;1"
+	set _theme gray
+	widget 0 0 7 1 label text="<span style='font-size:38px;'>{Head}</span>"
+	widget 0 1 7 1 label text="<span style='font-size:38px;'>{Question}</span>"
+	widget 1 2 5 2 rating_scale click_accepts=yes nodes="{Options}" orientation=horizontal var=response
+
+
